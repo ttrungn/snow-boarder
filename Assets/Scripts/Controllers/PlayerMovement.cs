@@ -1,8 +1,14 @@
+using Database;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
+
+    private SqLiteGameDb sqLiteGameDb;
+
+
     public GameObject Ground;
 
     public FloatVariable TorqueForce;
@@ -27,6 +33,15 @@ public class PlayerMovement : MonoBehaviour
     public Text speedText;
     public Text timeText;
 
+
+    [Header("Top Score")]
+    public Text top1Text;
+    public Text top2Text;
+    public Text top3Text;
+
+
+    public float score;
+
     private float inputVertical;
     private float inputHorizontal;
 
@@ -35,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
         this.rigidBody = this.GetComponent<Rigidbody2D>();
         this.groundSpeed = this.Ground.GetComponent<GroundSpeed>();
         this.IsAlive.SetValue(true);
+        sqLiteGameDb = FindObjectOfType<SqLiteGameDb>();
+        Instance = this;
     }
 
     private void Update()
@@ -45,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
             this.inputHorizontal = Input.GetAxisRaw("Horizontal");
         }
         UpdateUI();
+        UpdateTopScores();
     }
 
     private void UpdateUI()
@@ -61,7 +79,19 @@ public class PlayerMovement : MonoBehaviour
         {
             float currentTime = Time.time;
             this.timeText.text = "Time: " + currentTime.ToString("F1") + "s";
+            score = currentTime;
         }
+    }
+
+    private void UpdateTopScores()
+    {
+        // Get top scores from the database
+        var topScores = sqLiteGameDb.GetTop3Scores();
+
+        // Update UI with top scores
+        top1Text.text = topScores.Count > 0 ? "Top 1: " + topScores[0] + "s" : "Top 1: -";
+        top2Text.text = topScores.Count > 1 ? "Top 2: " + topScores[1] + "s" : "Top 2: -";
+        top3Text.text = topScores.Count > 2 ? "Top 3: " + topScores[2] + "s" : "Top 3: -";
     }
 
     private void FixedUpdate()

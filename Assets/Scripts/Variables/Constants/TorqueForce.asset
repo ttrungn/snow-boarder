@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TorqueForce
   m_EditorClassIdentifier: 
   DeveloperDescription: Speed at which player rotates.
-  Value: -20
+  Value: -25
