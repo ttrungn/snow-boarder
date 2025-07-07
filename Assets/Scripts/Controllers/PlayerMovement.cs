@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     public FloatVariable DefaultSpeed;
 
+    public FloatVariable CurrentTime;
+
     public BoolVariable IsAlive;
 
     private Rigidbody2D rigidBody;
@@ -77,9 +79,9 @@ public class PlayerMovement : MonoBehaviour
         // Update time text
         if (this.timeText != null)
         {
-            float currentTime = Time.time;
-            this.timeText.text = "Time: " + currentTime.ToString("F1") + "s";
-            score = currentTime;
+            this.CurrentTime.SetValue(Time.time - GameManager.Instance.StartTimeOffset);
+            this.timeText.text = "Time: " + this.CurrentTime.Value.ToString("F1") + "s";
+            this.score = this.CurrentTime.Value;
         }
     }
 
