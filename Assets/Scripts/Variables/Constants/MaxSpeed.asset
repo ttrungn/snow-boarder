@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MaxSpeed
   m_EditorClassIdentifier: 
   DeveloperDescription: Maximum player speed.
-  Value: 28
+  Value: 80
