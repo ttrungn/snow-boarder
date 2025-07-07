@@ -44,6 +44,24 @@ public class PlayerMovement : MonoBehaviour
             this.inputVertical = Input.GetAxisRaw("Vertical");
             this.inputHorizontal = Input.GetAxisRaw("Horizontal");
         }
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        // Update speed text
+        if (this.speedText != null)
+        {
+            float currentSpeed = this.groundSpeed.GetGroundSpeed();
+            this.speedText.text = "Speed: " + currentSpeed.ToString("F1");
+        }
+
+        // Update time text
+        if (this.timeText != null)
+        {
+            float currentTime = Time.time;
+            this.timeText.text = "Time: " + currentTime.ToString("F1") + "s";
+        }
     }
 
     private void FixedUpdate()
