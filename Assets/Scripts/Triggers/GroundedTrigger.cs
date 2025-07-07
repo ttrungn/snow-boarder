@@ -22,7 +22,7 @@ public class GroundedTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (this.triggerCandidates.Contains(other.gameObject))
+        if (IsTriggerCandidateOrChild(other.gameObject))
         {
             this.PlayerGroundedEvent.Invoke();
         }
@@ -30,9 +30,23 @@ public class GroundedTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (this.triggerCandidates.Contains(other.gameObject))
+        if (IsTriggerCandidateOrChild(other.gameObject))
         {
             this.PlayerAirbornEvent.Invoke();
         }
+    }
+
+    private bool IsTriggerCandidateOrChild(GameObject obj)
+    {
+        Transform current = obj.transform;
+        while (current != null)
+        {
+            if (triggerCandidates.Contains(current.gameObject))
+            {
+                return true;
+            }
+            current = current.parent;
+        }
+        return false;
     }
 }
