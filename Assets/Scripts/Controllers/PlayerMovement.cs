@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidBody;
     private GroundSpeed groundSpeed;
 
+    [Header("Dashboard")]
+    public GameObject Dashboard;
+    public Text speedText;
+    public Text timeText;
+
     private float inputVertical;
     private float inputHorizontal;
 
@@ -33,9 +39,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(this.IsAlive.Value) {
+        if (this.IsAlive.Value)
+        {
             this.inputVertical = Input.GetAxisRaw("Vertical");
             this.inputHorizontal = Input.GetAxisRaw("Horizontal");
+        }
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        // Update speed text
+        if (this.speedText != null)
+        {
+            float currentSpeed = this.groundSpeed.GetGroundSpeed();
+            this.speedText.text = "Speed: " + currentSpeed.ToString("F1");
+        }
+
+        // Update time text
+        if (this.timeText != null)
+        {
+            float currentTime = Time.time;
+            this.timeText.text = "Time: " + currentTime.ToString("F1") + "s";
         }
     }
 
@@ -52,9 +77,9 @@ public class PlayerMovement : MonoBehaviour
             float oldSpeed = this.groundSpeed.GetGroundSpeed();
             this.groundSpeed.SetGroundSpeed(this.getUpdatedSpeed(this.inputVertical, this.AccelerationRate.Value, this.groundSpeed.GetGroundSpeed(), this.MinSpeed.Value, this.MaxSpeed.Value));
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log(string.Format("PlayerMovement.getUpdatedSpeed user input speed change [from: {0}] [to: {1}]", oldSpeed, this.groundSpeed.GetGroundSpeed()));
-        #endif
+#endif
         }
 
         // Speed normalization
@@ -62,9 +87,9 @@ public class PlayerMovement : MonoBehaviour
         {
             float oldSpeed = this.groundSpeed.GetGroundSpeed();
             this.groundSpeed.SetGroundSpeed(getNormalizedSpeed(this.groundSpeed.GetGroundSpeed(), defaultSpeed, this.SpeedNormalizationRate.Value));
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log(string.Format("PlayerMovement.getNormalizedSpeed [from: {0}] [to: {1}]", oldSpeed, this.groundSpeed.GetGroundSpeed()));
-        #endif
+#endif
         }
 
         // Cleanup
