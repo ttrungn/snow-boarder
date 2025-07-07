@@ -53,7 +53,7 @@ public class PlayerJump : MonoBehaviour
     /// <param name="force"></param>
     private void Jump(float force)
     {
-        this.rigidBody.velocity = new Vector2(this.rigidBody.velocity.x, (Vector2.up.y * force));
+        this.rigidBody.linearVelocity = new Vector2(this.rigidBody.linearVelocity.x, (Vector2.up.y * force));
         this.inputJump = false;
     }
 }
