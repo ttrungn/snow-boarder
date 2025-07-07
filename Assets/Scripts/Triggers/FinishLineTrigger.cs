@@ -27,6 +27,7 @@ public class FinishLineTrigger : MonoBehaviour
     {
         if (this.triggerCandidates.Contains(other.gameObject))
         {
+            GameManager.Instance.PlayVictorySound();
             sqLiteGameDb.AddToDb(PlayerMovement.Instance.score, true);
             this.FinishLineCrossedEvent.Invoke();
         }

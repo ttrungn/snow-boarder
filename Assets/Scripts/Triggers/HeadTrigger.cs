@@ -27,6 +27,7 @@ public class HeadTrigger : MonoBehaviour
     {
         if (this.triggerCandidates.Contains(other.gameObject) && this.IsAlive.Value)
         {
+            GameManager.Instance.PlayOughSound();
             sqLiteGameDb.AddToDb(PlayerMovement.Instance.score, false);
             this.HeadCollisionEvent.Invoke();
         }

@@ -34,6 +34,7 @@ public class PlayerJump : MonoBehaviour
         // Player jump
         if (this.inputJump && this.RemainingJumps.Value > 0)
         {
+            GameManager.Instance.PlayJumpSound();
             this.Jump(this.JumpForce.Value);
             this.RemainingJumps.ApplyChange(-1);
             this.PlayerJumpEvent.Invoke();

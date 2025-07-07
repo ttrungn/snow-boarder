@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public Text top3Text;
 
 
-    public float score;
+    public float score = 0;
 
     private float inputVertical;
     private float inputHorizontal;
@@ -79,9 +79,10 @@ public class PlayerMovement : MonoBehaviour
         // Update time text
         if (this.timeText != null)
         {
-            this.CurrentTime.SetValue(Time.time - GameManager.Instance.StartTimeOffset);
-            this.timeText.text = "Time: " + this.CurrentTime.Value.ToString("F1") + "s";
+            float newTime = Time.time - GameManager.Instance.StartTimeOffset;
+            this.CurrentTime.SetValue(newTime);
             this.score = this.CurrentTime.Value;
+            this.timeText.text = "Time: " + this.score.ToString("F1");
         }
     }
 
